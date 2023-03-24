@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const BasicForm = () => {
   const [firstName, setFirstName] = useState('')
@@ -7,6 +7,12 @@ const BasicForm = () => {
   const [firstNameIsValid, setFirstNameIsValid] = useState(false)
   const [lastNameIsValid, setLastNameIsValid] = useState(false)
   const [emailIsValid, setEmailIsValid] = useState(false)
+  const [formIsValid, setFormIsValid] = useState(false)
+
+  useEffect(() => {
+    if (firstNameIsValid && lastNameIsValid && emailIsValid)
+      setFormIsValid(true)
+  }, [firstNameIsValid, lastNameIsValid, emailIsValid])
 
   const firstNameHandler = event => {
     setFirstName(event.target.value)
@@ -40,7 +46,7 @@ const BasicForm = () => {
   return (
     <form onSubmit={formSubmitHandler}>
       <div className='control-group'>
-        <div className='form-control'>
+        <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
           <label htmlFor='name'>First Name</label>
           <input
             type='text'
@@ -49,7 +55,7 @@ const BasicForm = () => {
             onChange={firstNameHandler}
           />
         </div>
-        <div className='form-control'>
+        <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
           <label htmlFor='last-name'>Last Name</label>
           <input
             type='text'
@@ -59,7 +65,7 @@ const BasicForm = () => {
           />
         </div>
       </div>
-      <div className='form-control'>
+      <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
         <label htmlFor='email'>E-Mail Address</label>
         <input
           type='email'
@@ -69,7 +75,7 @@ const BasicForm = () => {
         />
       </div>
       <div className='form-actions'>
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   )
