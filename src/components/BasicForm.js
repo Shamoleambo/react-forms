@@ -4,16 +4,14 @@ const BasicForm = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [formIsValid, setFormIsValid] = useState(false)
+  const [firstTouch, setFirstTouch] = useState(false)
+  const [lastTouch, setLastTouch] = useState(false)
+  const [emailTouch, setEmailTouch] = useState(false)
+  const formIsValid = false
 
-  const firstNameIsValid = firstName.trim() !== ''
-  const lastNameIsValid = lastName.trim() !== ''
-  const emailIsValid = email.includes('@')
-
-  useEffect(() => {
-    if (firstNameIsValid && lastNameIsValid && emailIsValid)
-      setFormIsValid(true)
-  }, [firstNameIsValid, lastNameIsValid, emailIsValid])
+  const firstNameIsInvalid = firstName.trim() === '' && firstTouch
+  const lastNameIsInvalid = lastName.trim() === '' && lastTouch
+  const emailIsInvalid = !email.includes('@') && emailTouch
 
   const firstNameHandler = event => {
     setFirstName(event.target.value)
@@ -25,12 +23,22 @@ const BasicForm = () => {
     setEmail(event.target.value)
   }
 
+  const firstNameBlurHanlder = () => {
+    setFirstTouch(true)
+  }
+  const lastNameBlurHanlder = () => {
+    setLastTouch(true)
+  }
+  const emailBlurHanlder = () => {
+    setEmailTouch(true)
+  }
+
   const formSubmitHandler = event => {
     event.preventDefault()
 
-    if (!firstNameIsValid || !lastNameIsValid || !emailIsValid) {
-      return
-    }
+    // if (!firstNameIsValid || !lastNameIsValid || !emailIsValid) {
+    //   return
+    // }
 
     console.log([firstName, lastName, email])
   }
@@ -39,7 +47,9 @@ const BasicForm = () => {
     <form onSubmit={formSubmitHandler}>
       <div className='control-group'>
         <div
-          className={firstNameIsValid ? 'form-control' : 'form-control invalid'}
+          className={
+            firstNameIsInvalid ? 'form-control invalid' : 'form-control'
+          }
         >
           <label htmlFor='name'>First Name</label>
           <input
@@ -47,10 +57,13 @@ const BasicForm = () => {
             id='name'
             value={firstName}
             onChange={firstNameHandler}
+            onBlur={firstNameBlurHanlder}
           />
         </div>
         <div
-          className={lastNameIsValid ? 'form-control' : 'form-control invalid'}
+          className={
+            lastNameIsInvalid ? 'form-control invalid' : 'form-control'
+          }
         >
           <label htmlFor='last-name'>Last Name</label>
           <input
@@ -58,16 +71,18 @@ const BasicForm = () => {
             id='last-name'
             value={lastName}
             onChange={lastNameHandler}
+            onBlur={lastNameBlurHanlder}
           />
         </div>
       </div>
-      <div className={emailIsValid ? 'form-control' : 'form-control invalid'}>
+      <div className={emailIsInvalid ? 'form-control invalid' : 'form-control'}>
         <label htmlFor='email'>E-Mail Address</label>
         <input
           type='email'
           id='email'
           value={email}
           onChange={emailChangeHandler}
+          onBlur={emailBlurHanlder}
         />
       </div>
       <div className='form-actions'>
