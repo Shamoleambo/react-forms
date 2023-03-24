@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const BasicForm = () => {
   const [firstName, setFirstName] = useState('')
@@ -9,11 +9,15 @@ const BasicForm = () => {
   const [emailTouch, setEmailTouch] = useState(false)
   let formIsValid = false
 
-  const firstNameIsInvalid = firstName.trim() === '' && firstTouch
-  const lastNameIsInvalid = lastName.trim() === '' && lastTouch
-  const emailIsInvalid = !email.includes('@') && emailTouch
+  const firstNameInputInvalid = firstName.trim() === ''
+  const lastNameInputInvalid = lastName.trim() === ''
+  const emailInputInvalid = !email.includes('@')
 
-  if (!firstNameIsInvalid && !lastNameIsInvalid && !emailIsInvalid)
+  const firstNameFieldInvalid = firstNameInputInvalid && firstTouch
+  const lastNameFieldInvalid = lastNameInputInvalid && lastTouch
+  const emailFieldInvalid = emailInputInvalid && emailTouch
+
+  if (!firstNameInputInvalid && !lastNameInputInvalid && !emailInputInvalid)
     formIsValid = true
 
   const firstNameHandler = event => {
@@ -39,11 +43,13 @@ const BasicForm = () => {
   const formSubmitHandler = event => {
     event.preventDefault()
 
-    // if (!firstNameIsValid || !lastNameIsValid || !emailIsValid) {
-    //   return
-    // }
-
     console.log([firstName, lastName, email])
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setFirstTouch(false)
+    setLastTouch(false)
+    setEmailTouch(false)
   }
 
   return (
@@ -51,7 +57,7 @@ const BasicForm = () => {
       <div className='control-group'>
         <div
           className={
-            firstNameIsInvalid ? 'form-control invalid' : 'form-control'
+            firstNameFieldInvalid ? 'form-control invalid' : 'form-control'
           }
         >
           <label htmlFor='name'>First Name</label>
@@ -65,7 +71,7 @@ const BasicForm = () => {
         </div>
         <div
           className={
-            lastNameIsInvalid ? 'form-control invalid' : 'form-control'
+            lastNameFieldInvalid ? 'form-control invalid' : 'form-control'
           }
         >
           <label htmlFor='last-name'>Last Name</label>
@@ -78,7 +84,9 @@ const BasicForm = () => {
           />
         </div>
       </div>
-      <div className={emailIsInvalid ? 'form-control invalid' : 'form-control'}>
+      <div
+        className={emailFieldInvalid ? 'form-control invalid' : 'form-control'}
+      >
         <label htmlFor='email'>E-Mail Address</label>
         <input
           type='email'
