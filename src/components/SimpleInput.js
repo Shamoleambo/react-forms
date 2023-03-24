@@ -7,6 +7,7 @@ const SimpleInput = props => {
 
   const nameInputHandler = event => {
     setNameInput(event.target.value)
+    if (event.target.value.trim() !== '') setNameInputIsValid(true)
   }
 
   const formSubmitHandler = event => {
@@ -20,6 +21,17 @@ const SimpleInput = props => {
     setNameInputIsValid(true)
 
     console.log(nameInput)
+  }
+
+  const nameInputBlurHandler = event => {
+    setNameInputTouched(true)
+
+    if (nameInput.trim() === '') {
+      setNameInputIsValid(false)
+      return
+    } else {
+      setNameInputIsValid(true)
+    }
   }
 
   const invalidNameField = !nameInputIsValid && nameInputTouched
@@ -36,6 +48,7 @@ const SimpleInput = props => {
           id='name'
           value={nameInput}
           onChange={nameInputHandler}
+          onBlur={nameInputBlurHandler}
         />
         {invalidNameField && <p className='error-text'>Enter a valid name</p>}
       </div>
