@@ -23,7 +23,7 @@ const BasicForm = () => {
   const emailChangeHandler = event => {
     setEmail(event.target.value)
 
-    if (event.target.value.includes('@')) setEmailIsValid(false)
+    if (!event.target.value.includes('@')) setEmailIsValid(false)
     else setEmailIsValid(true)
   }
 
@@ -42,16 +42,31 @@ const BasicForm = () => {
       <div className='control-group'>
         <div className='form-control'>
           <label htmlFor='name'>First Name</label>
-          <input type='text' id='name' onChange={firstNameHandler} />
+          <input
+            type='text'
+            id='name'
+            value={firstName}
+            onChange={firstNameHandler}
+          />
         </div>
         <div className='form-control'>
           <label htmlFor='last-name'>Last Name</label>
-          <input type='text' id='last-name' onChange={lastNameHandler} />
+          <input
+            type='text'
+            id='last-name'
+            value={lastName}
+            onChange={lastNameHandler}
+          />
         </div>
       </div>
       <div className='form-control'>
         <label htmlFor='email'>E-Mail Address</label>
-        <input type='email' id='email' onChange={emailChangeHandler} />
+        <input
+          type='email'
+          id='email'
+          value={email}
+          onChange={emailChangeHandler}
+        />
       </div>
       <div className='form-actions'>
         <button>Submit</button>
