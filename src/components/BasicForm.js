@@ -7,11 +7,14 @@ const BasicForm = () => {
   const [firstTouch, setFirstTouch] = useState(false)
   const [lastTouch, setLastTouch] = useState(false)
   const [emailTouch, setEmailTouch] = useState(false)
-  const formIsValid = false
+  let formIsValid = false
 
   const firstNameIsInvalid = firstName.trim() === '' && firstTouch
   const lastNameIsInvalid = lastName.trim() === '' && lastTouch
   const emailIsInvalid = !email.includes('@') && emailTouch
+
+  if (!firstNameIsInvalid && !lastNameIsInvalid && !emailIsInvalid)
+    formIsValid = true
 
   const firstNameHandler = event => {
     setFirstName(event.target.value)
