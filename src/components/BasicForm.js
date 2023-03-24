@@ -14,8 +14,19 @@ const BasicForm = () => {
   const emailInputInvalid = !email.includes('@')
 
   const firstNameFieldInvalid = firstNameInputInvalid && firstTouch
+  const classFirstNameField = firstNameFieldInvalid
+    ? 'form-control invalid'
+    : 'form-control'
+
   const lastNameFieldInvalid = lastNameInputInvalid && lastTouch
+  const classLastNameField = lastNameFieldInvalid
+    ? 'form-control invalid'
+    : 'form-control'
+
   const emailFieldInvalid = emailInputInvalid && emailTouch
+  const classEmailField = emailFieldInvalid
+    ? 'form-control invalid'
+    : 'form-control'
 
   if (!firstNameInputInvalid && !lastNameInputInvalid && !emailInputInvalid)
     formIsValid = true
@@ -55,11 +66,7 @@ const BasicForm = () => {
   return (
     <form onSubmit={formSubmitHandler}>
       <div className='control-group'>
-        <div
-          className={
-            firstNameFieldInvalid ? 'form-control invalid' : 'form-control'
-          }
-        >
+        <div className={classFirstNameField}>
           <label htmlFor='name'>First Name</label>
           <input
             type='text'
@@ -69,11 +76,7 @@ const BasicForm = () => {
             onBlur={firstNameBlurHanlder}
           />
         </div>
-        <div
-          className={
-            lastNameFieldInvalid ? 'form-control invalid' : 'form-control'
-          }
-        >
+        <div className={classLastNameField}>
           <label htmlFor='last-name'>Last Name</label>
           <input
             type='text'
@@ -84,9 +87,7 @@ const BasicForm = () => {
           />
         </div>
       </div>
-      <div
-        className={emailFieldInvalid ? 'form-control invalid' : 'form-control'}
-      >
+      <div className={classEmailField}>
         <label htmlFor='email'>E-Mail Address</label>
         <input
           type='email'
