@@ -2,39 +2,39 @@ import { useState } from 'react'
 
 const SimpleInput = props => {
   const [nameInput, setNameInput] = useState('')
-  const [nameInputIsValid, setNameInputIsValid] = useState(false)
-  const [nameInputTouched, setNameInputTouched] = useState(false)
+  const [nameFieldIsValid, setNameFieldIsValid] = useState(false)
+  const [nameFieldTouched, setNameFieldTouched] = useState(false)
 
   const nameInputHandler = event => {
     setNameInput(event.target.value)
-    if (event.target.value.trim() !== '') setNameInputIsValid(true)
+    if (event.target.value.trim() !== '') setNameFieldIsValid(true)
   }
 
   const formSubmitHandler = event => {
     event.preventDefault()
-    setNameInputTouched(true)
+    setNameFieldTouched(true)
 
     if (nameInput.trim() === '') {
-      setNameInputIsValid(false)
+      setNameFieldIsValid(false)
       return
     }
-    setNameInputIsValid(true)
+    setNameFieldIsValid(true)
 
     console.log(nameInput)
   }
 
   const nameInputBlurHandler = event => {
-    setNameInputTouched(true)
+    setNameFieldTouched(true)
 
     if (nameInput.trim() === '') {
-      setNameInputIsValid(false)
+      setNameFieldIsValid(false)
       return
     } else {
-      setNameInputIsValid(true)
+      setNameFieldIsValid(true)
     }
   }
 
-  const invalidNameField = !nameInputIsValid && nameInputTouched
+  const invalidNameField = !nameFieldIsValid && nameFieldTouched
   const formControlClasses = invalidNameField
     ? 'form-control invalid'
     : 'form-control'
