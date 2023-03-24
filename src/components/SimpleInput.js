@@ -2,12 +2,16 @@ import { useState } from 'react'
 
 const SimpleInput = props => {
   const [nameInput, setNameInput] = useState('')
-  const [nameFieldIsValid, setNameFieldIsValid] = useState(false)
   const [nameFieldTouched, setNameFieldTouched] = useState(false)
+
+  const enteredNameIsValid = nameInput.trim() !== ''
 
   const nameInputHandler = event => {
     setNameInput(event.target.value)
-    if (event.target.value.trim() !== '') setNameFieldIsValid(true)
+  }
+
+  const nameInputBlurHandler = () => {
+    setNameFieldTouched(true)
   }
 
   const formSubmitHandler = event => {
@@ -15,26 +19,15 @@ const SimpleInput = props => {
     setNameFieldTouched(true)
 
     if (nameInput.trim() === '') {
-      setNameFieldIsValid(false)
       return
     }
-    setNameFieldIsValid(true)
 
     console.log(nameInput)
+    setNameFieldTouched(false)
+    setNameInput('')
   }
 
-  const nameInputBlurHandler = event => {
-    setNameFieldTouched(true)
-
-    if (nameInput.trim() === '') {
-      setNameFieldIsValid(false)
-      return
-    } else {
-      setNameFieldIsValid(true)
-    }
-  }
-
-  const invalidNameField = !nameFieldIsValid && nameFieldTouched
+  const invalidNameField = !enteredNameIsValid && nameFieldTouched
   const formControlClasses = invalidNameField
     ? 'form-control invalid'
     : 'form-control'
