@@ -4,10 +4,11 @@ const BasicForm = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
-  const [firstNameIsValid, setFirstNameIsValid] = useState(false)
-  const [lastNameIsValid, setLastNameIsValid] = useState(false)
-  const [emailIsValid, setEmailIsValid] = useState(false)
   const [formIsValid, setFormIsValid] = useState(false)
+
+  const firstNameIsValid = firstName.trim() !== ''
+  const lastNameIsValid = lastName.trim() !== ''
+  const emailIsValid = email.includes('@')
 
   useEffect(() => {
     if (firstNameIsValid && lastNameIsValid && emailIsValid)
@@ -16,21 +17,12 @@ const BasicForm = () => {
 
   const firstNameHandler = event => {
     setFirstName(event.target.value)
-
-    if (event.target.value.trim() === '') setFirstNameIsValid(false)
-    else setFirstNameIsValid(true)
   }
   const lastNameHandler = event => {
     setLastName(event.target.value)
-
-    if (event.target.value.trim() === '') setLastNameIsValid(false)
-    else setLastNameIsValid(true)
   }
   const emailChangeHandler = event => {
     setEmail(event.target.value)
-
-    if (!event.target.value.includes('@')) setEmailIsValid(false)
-    else setEmailIsValid(true)
   }
 
   const formSubmitHandler = event => {
@@ -46,7 +38,9 @@ const BasicForm = () => {
   return (
     <form onSubmit={formSubmitHandler}>
       <div className='control-group'>
-        <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
+        <div
+          className={firstNameIsValid ? 'form-control' : 'form-control invalid'}
+        >
           <label htmlFor='name'>First Name</label>
           <input
             type='text'
@@ -55,7 +49,9 @@ const BasicForm = () => {
             onChange={firstNameHandler}
           />
         </div>
-        <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
+        <div
+          className={lastNameIsValid ? 'form-control' : 'form-control invalid'}
+        >
           <label htmlFor='last-name'>Last Name</label>
           <input
             type='text'
@@ -65,7 +61,7 @@ const BasicForm = () => {
           />
         </div>
       </div>
-      <div className={formIsValid ? 'form-control' : 'form-control invalid'}>
+      <div className={emailIsValid ? 'form-control' : 'form-control invalid'}>
         <label htmlFor='email'>E-Mail Address</label>
         <input
           type='email'
