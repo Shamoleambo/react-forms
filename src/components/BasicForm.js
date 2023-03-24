@@ -4,19 +4,35 @@ const BasicForm = () => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [firstNameIsValid, setFirstNameIsValid] = useState(false)
+  const [lastNameIsValid, setLastNameIsValid] = useState(false)
+  const [emailIsValid, setEmailIsValid] = useState(false)
 
   const firstNameHandler = event => {
     setFirstName(event.target.value)
+
+    if (event.target.value.trim() === '') setFirstNameIsValid(false)
+    else setFirstNameIsValid(true)
   }
   const lastNameHandler = event => {
     setLastName(event.target.value)
+
+    if (event.target.value.trim() === '') setLastNameIsValid(false)
+    else setLastNameIsValid(true)
   }
   const emailChangeHandler = event => {
     setEmail(event.target.value)
+
+    if (event.target.value.includes('@')) setEmailIsValid(false)
+    else setEmailIsValid(true)
   }
 
   const formSubmitHandler = event => {
     event.preventDefault()
+
+    if (!firstNameIsValid || !lastNameIsValid || !emailIsValid) {
+      return
+    }
 
     console.log([firstName, lastName, email])
   }
