@@ -96,8 +96,7 @@ button:disabled:active {
   margin-left: 1rem;
 }
 
-.invalid input.invalidName,
-.invalid input.invalidEmail {
+.invalid input {
   border: 1px solid #b40e0e;
   background-color: #fddddd;
 }

@@ -1,27 +1,20 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 
 const SimpleInput = props => {
   const [nameInput, setNameInput] = useState('')
   const [emailInput, setEmailInput] = useState('')
   const [nameFieldTouched, setNameFieldTouched] = useState(false)
   const [emailFieldTouched, setEmailFieldTouched] = useState(false)
-  const nameInputField = useRef()
-  const emailInputField = useRef()
 
   const enteredNameIsValid = nameInput.trim() !== ''
   const enterdEmailIsValid = emailInput.includes('@')
+
   const invalidNameField = !enteredNameIsValid && nameFieldTouched
   const invalidEmailField = !enterdEmailIsValid && emailFieldTouched
-  const formControlClasses =
-    invalidNameField || invalidEmailField
-      ? 'form-control invalid'
-      : 'form-control'
   let formIsValid = false
 
-  useEffect(() => {
-    if (invalidNameField) nameInputField.current.className = 'invalidName'
-    if (invalidEmailField) emailInputField.current.className = 'invalidEmail'
-  }, [formControlClasses, invalidNameField, invalidEmailField])
+  const nameClass = invalidNameField ? 'form-control invalid' : 'form-control'
+  const emailClass = invalidEmailField ? 'form-control invalid' : 'form-control'
 
   if (enteredNameIsValid && enterdEmailIsValid) {
     formIsValid = true
@@ -61,28 +54,28 @@ const SimpleInput = props => {
 
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className={formControlClasses}>
+      <div className={nameClass}>
         <label htmlFor='name'>Your Name</label>
         <input
-          ref={nameInputField}
           type='text'
           id='name'
           value={nameInput}
           onChange={nameInputHandler}
           onBlur={nameInputBlurHandler}
         />
+        {invalidNameField && <p className='error-text'>Enter a valid name</p>}
+      </div>
+      <div className={emailClass}>
         <label htmlFor='email'>Your E-mail</label>
         <input
-          ref={emailInputField}
           type='email'
           id='email'
           value={emailInput}
           onChange={emailInputHandler}
           onBlur={emailInputBlurHandler}
         />
-        {invalidNameField && <p className='error-text'>Enter a valid name</p>}
-        {invalidEmailField && <p className='error-text'>Enter a valid email</p>}
       </div>
+      {invalidEmailField && <p className='error-text'>Enter a valid email</p>}
       <div className='form-actions'>
         <button disabled={!formIsValid}>Submit</button>
       </div>
