@@ -1,66 +1,48 @@
-import { useState } from 'react'
+import useInputBasic from '../hooks/use-inputBasic'
+
+const nameValidator = name => name.trim() === ''
+const emailValidator = email => !email.includes('@')
 
 const BasicForm = () => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [firstTouch, setFirstTouch] = useState(false)
-  const [lastTouch, setLastTouch] = useState(false)
-  const [emailTouch, setEmailTouch] = useState(false)
+  const {
+    value: firstName,
+    valueIsInvalid: firstNameInputInvalid,
+    className: classFirstNameField,
+    valueHandler: firstNameHandler,
+    blurHandler: firstNameBlurHanlder,
+    reset: firstNameRest
+  } = useInputBasic(nameValidator)
+
+  const {
+    value: lastName,
+    valueIsInvalid: lastNameInputInvalid,
+    className: classLastNameField,
+    valueHandler: lastNameHandler,
+    blurHandler: lastNameBlurHanlder,
+    reset: lastNameReset
+  } = useInputBasic(nameValidator)
+
+  const {
+    value: email,
+    valueIsInvalid: emailInputInvalid,
+    className: classEmailField,
+    valueHandler: emailChangeHandler,
+    blurHandler: emailBlurHanlder,
+    reset: emailReset
+  } = useInputBasic(emailValidator)
+
   let formIsValid = false
-
-  const firstNameInputInvalid = firstName.trim() === ''
-  const lastNameInputInvalid = lastName.trim() === ''
-  const emailInputInvalid = !email.includes('@')
-
-  const firstNameFieldInvalid = firstNameInputInvalid && firstTouch
-  const classFirstNameField = firstNameFieldInvalid
-    ? 'form-control invalid'
-    : 'form-control'
-
-  const lastNameFieldInvalid = lastNameInputInvalid && lastTouch
-  const classLastNameField = lastNameFieldInvalid
-    ? 'form-control invalid'
-    : 'form-control'
-
-  const emailFieldInvalid = emailInputInvalid && emailTouch
-  const classEmailField = emailFieldInvalid
-    ? 'form-control invalid'
-    : 'form-control'
 
   if (!firstNameInputInvalid && !lastNameInputInvalid && !emailInputInvalid)
     formIsValid = true
-
-  const firstNameHandler = event => {
-    setFirstName(event.target.value)
-  }
-  const lastNameHandler = event => {
-    setLastName(event.target.value)
-  }
-  const emailChangeHandler = event => {
-    setEmail(event.target.value)
-  }
-
-  const firstNameBlurHanlder = () => {
-    setFirstTouch(true)
-  }
-  const lastNameBlurHanlder = () => {
-    setLastTouch(true)
-  }
-  const emailBlurHanlder = () => {
-    setEmailTouch(true)
-  }
 
   const formSubmitHandler = event => {
     event.preventDefault()
 
     console.log([firstName, lastName, email])
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setFirstTouch(false)
-    setLastTouch(false)
-    setEmailTouch(false)
+    firstNameRest()
+    lastNameReset()
+    emailReset()
   }
 
   return (
