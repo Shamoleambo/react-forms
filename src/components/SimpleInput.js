@@ -5,6 +5,15 @@ const SimpleInput = props => {
   const [nameFieldTouched, setNameFieldTouched] = useState(false)
 
   const enteredNameIsValid = nameInput.trim() !== ''
+  const invalidNameField = !enteredNameIsValid && nameFieldTouched
+  const formControlClasses = invalidNameField
+    ? 'form-control invalid'
+    : 'form-control'
+  let formIsValid = false
+
+  if (enteredNameIsValid) {
+    formIsValid = true
+  }
 
   const nameInputHandler = event => {
     setNameInput(event.target.value)
@@ -27,11 +36,6 @@ const SimpleInput = props => {
     setNameInput('')
   }
 
-  const invalidNameField = !enteredNameIsValid && nameFieldTouched
-  const formControlClasses = invalidNameField
-    ? 'form-control invalid'
-    : 'form-control'
-
   return (
     <form onSubmit={formSubmitHandler}>
       <div className={formControlClasses}>
@@ -46,7 +50,7 @@ const SimpleInput = props => {
         {invalidNameField && <p className='error-text'>Enter a valid name</p>}
       </div>
       <div className='form-actions'>
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   )
